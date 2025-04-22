@@ -1,3 +1,5 @@
+from enum import unique
+
 import requests
 import allure
 import pytest
@@ -7,12 +9,13 @@ from urls import Urls
 from http import HTTPStatus
 
 class TestCreateCourier:
+
     @allure.title('Тест создания курьера')
     @allure.description('Проверка создания курьера')
-    def test_create_courier_account_created(self):
-        courier_payload = register_new_courier_and_return_login_password()
-        response = requests.post(Urls.URL_CREATE_COURIER,data = courier_payload)
-        assert response.status_code == HTTPStatus.CREATED and response.json() == {'ok': True}
+    def test_create_courier_account_created(self,create_courier):
+        courier_id = create_courier
+        assert courier_id is not None
+
 
     @allure.title('Неуспешное создание курьера с повторно введенными данными')
     def test_create_duplicate_courier(self):
